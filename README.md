@@ -1,4 +1,4 @@
-#Тестовое задание 
+# Тестовое задание 
 ## Запуск 
 1. docker-compose up
 2. docker-compose run roomsservice python manage.py migrate
