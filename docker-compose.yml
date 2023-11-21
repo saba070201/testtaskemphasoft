@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3'
 
 services:
   roomsservice:
@@ -7,11 +7,8 @@ services:
    
     container_name: roomsservice
 
-    command: bash -c "
-        && python manage.py migrate
-        && python manage.py createsuperuser
-        && python manage.py runserver 0.0.0.0:8080
-        "
+    command: "python manage.py runserver 0.0.0.0:8000" 
+  
     
     volumes:
       - .:/usr/src/app
@@ -26,11 +23,12 @@ services:
     image: postgres
  
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=rooms_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PORT=5432
    
-    container_name: pgdb
+    container_name: pgsqldb
      
     volumes:
       - pgdbdata:/var/lib/postgresql/data/

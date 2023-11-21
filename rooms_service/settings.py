@@ -79,16 +79,17 @@ WSGI_APPLICATION = "rooms_service.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 TIME_ZONE = "Europe/Moscow"
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",  # Используется PostgreSQL
-        "NAME": "rooms_db",  # Имя базы данных
-        "USER": "postgres",  # Имя пользователя
-        "PASSWORD": "postgres",  # Пароль пользователя
-        "PORT": "5432",  # Порт базы данных
-        'HOST': 'pgdb',
-        "TIME_ZONE": TIME_ZONE,
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',   # Используется PostgreSQL
+        'NAME': 'rooms_db', # Имя базы данных
+        'USER': 'postgres', # Имя пользователя
+        'PASSWORD': 'postgres', # Пароль пользователя
+        'HOST': 'pgdb', # Наименование контейнера для базы данных в Docker Compose
+        'PORT': '5432',  # Порт базы данных
+        'TIME_ZONE':TIME_ZONE,
     }
 }
+
 DJOSER = {
     "PASSWORD_RESET_CONFIRM_URL": "#/password/reset/confirm/{uid}/{token}",
     "USERNAME_RESET_CONFIRM_URL": "#/username/reset/confirm/{uid}/{token}",
