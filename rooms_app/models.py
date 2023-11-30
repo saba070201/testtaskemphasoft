@@ -10,9 +10,8 @@ class FreeRoomsManager(models.Manager):
 
     def get_free_fooms(self, **dates):
         free_rooms_pk = []
-
-        start_date = dates["start_booking"].split("/")
-        end_date = dates["end_booking"].split("/")
+        start_date = dates["start_booking"].split("-")
+        end_date = dates["end_booking"].split("-")
         start_booking = datetime.date(
             year=int(start_date[0]),
             month=int(start_date[1]),
@@ -26,13 +25,13 @@ class FreeRoomsManager(models.Manager):
         )
         for i in self.get_queryset().all():
             data = i.bookings.filter(
-                models.Q(start_booking__gte=start_booking)
-                and models.Q(end_booking__lte=end_booking)
-            )
+                (models.Q(start_booking__lte=start_booking)
+                 and models.Q(end_booking__gt=start_booking))
+                or models.Q(end_booking__gte=end_booking)
+                and models.Q(start_booking__lt=end_booking))
             if not data.exists():
                 i.price = i.price * self.get_days_count(
-                    start_booking=start_booking, end_booking=end_booking
-                )
+                    start_booking=start_booking, end_booking=end_booking)
                 free_rooms_pk.append(i.id)
         return self.get_queryset().filter(pk__in=free_rooms_pk)
 
@@ -61,10 +60,8 @@ class Booking(models.Model):
         return (self.end_booking - self.start_booking).days
 
     def can_set_booking_or_not(self, **dates):
-        if (
-            self.start_booking >= dates["start_booking"]
-            and self.end_booking <= dates["end_booking"]
-        ):
+        if (self.start_booking >= dates["start_booking"]
+                and self.end_booking <= dates["end_booking"]):
             return False
         return True
 

@@ -35,9 +35,7 @@ class Migration(migrations.Migration):
                 ("free_rooms", django.db.models.manager.Manager()),
             ],
         ),
-        migrations.DeleteModel(
-            name="Bookng",
-        ),
+        migrations.DeleteModel(name="Bookng", ),
         migrations.AddField(
             model_name="booking",
             name="room",
@@ -51,7 +49,7 @@ class Migration(migrations.Migration):
             model_name="booking",
             name="user",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
-            ),
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL),
         ),
     ]
